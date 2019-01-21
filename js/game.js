@@ -3,74 +3,62 @@ function Game() {
   this.ctx = undefined;
   this.width = 1000;
   this.height = 600;
+  this.currentNote = undefined;
+  this.allNotes = [
+    new Note(0,0,"Do","#C76CE5",document.getElementById("Do")),
+    new Note(0,0,"Re","#6EA3E8",document.getElementById("Re")),
+    new Note(0,0,"Mi","#72FFC4",document.getElementById("Mi")),
+    new Note(0,0,"Fa","#A0E85E",document.getElementById("Fa")),
+    new Note(0,0,"Sol","#FFE15D",document.getElementById("Sol")),
+    new Note(0,0,"La","#FFAE68",document.getElementById("La")),
+    new Note(0,0,"Si","#E56D85",document.getElementById("Si")),
+  ];
 
-  this.note = new Note(70, 0, "Sol"); 
-  this.noteRadius = 30;
+  //this.note = new Note(70, 0, "Fa");
+
 
   this.start = function(canvasID) {
     this.canvas = document.getElementById(canvasID);
     this.ctx = this.canvas.getContext("2d");
-    
-    
-    var that = this;
-
-    setInterval(function() {
-      that.update();
-      that.draw();
-      that.makeSound();
-    }, 5);
+    this.generateNote();
+   
+    setInterval(
+      function() {
+        
+        this.draw();
+        this.generateSound();
+        this.update();
+      }.bind(this),
+      10
+    );
   };
 
+
   this.update = function() {
-    this.note.y++;
-   
-  
-    if (this.note.y >= this.height - this.noteRadius) {
-     // console.log("collision!");
+      this.currentNote.moveDown();
+      if(this.currentNote.getBottom() >= this.height){
+        this.generateNote();
+        // console.log("collision!");
+      }
+    };
+
+  this.generateNote = function() {
+    var randomNoteIndex = Math.floor(Math.random() * this.allNotes.length)
+    this.currentNote = this.allNotes[randomNoteIndex];  
+    this.currentNote.x = 40;
+    this.currentNote.y = 0;  
+  };
+
+  this.generateSound = function() {
+    if (this.currentNote.y === 0) {
+      //para solucionar la problematica con el AUTOPLAY, hacer que interaccione, bajando la y
+    this.currentNote.makeSound();
     }
   };
 
   this.draw = function() {
-    this.ctx.clearRect(0, 0, this.width, this.height);
-    this.ctx.beginPath();
-    this.ctx.font = '48px Amatic SC';
-    var noteTextX;
-    if(this.note.name === "Sol"){
-      noteTextX = this.note.x - 27
-    }
-    else {
-      noteTextX = this.note.x-20;
-    }
-    this.ctx.fillText(this.note.name, noteTextX, this.note.y -35);
-    /*this.ctx.fillStyle = "pink"
-    this.ctx.fill();*/
-    var startAngle = 0;
-    var endAngle = Math.PI * 2;
-    this.ctx.arc(
-      this.note.x,
-      this.note.y,
-      this.noteRadius,
-      startAngle,
-      endAngle,
-      true
-    );
-    this.ctx.fillStyle = "#FFE15D";
-    this.ctx.fill();
+      this.ctx.clearRect(0, 0, this.width, this.height);
+      this.currentNote.draw(this.ctx);
   };
-
-  this.makeSound = function(){
-    if (this.note.y === 50){
-      var sound = document.getElementById(this.note.name);
-      sound.play();
-    }
-    
-  }
 }
 
-function Note(x, y, name) {
-  this.x = x;
-  this.y = y;
-  this.name = name;
-}
-
-var game = new Game();
