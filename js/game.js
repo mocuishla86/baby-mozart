@@ -9,7 +9,7 @@ function Game() {
   this.canvas = undefined;
   this.ctx = undefined;
 
-  this.scoreBoard = undefined;
+  this.score = 0;
 
   this.allNotes = [
     new Note(0, 0, "Do", "#C76CE5", document.getElementById("Do")),
@@ -31,15 +31,6 @@ function Game() {
     { id: "Si", x1: 810, x2: 940 }
   ];
 
-var scoreBoard = {
-  update: function(score, ctx){
-    ctx.font = "48px Amatic SC";
-    ctx.fillStyle = "red";
-    ctx.fillText(Math.floor(score), 50, 50)
-  }
-}
-
-
   this.start = function(canvasID) {
     this.canvas = document.getElementById(canvasID);
     this.ctx = this.canvas.getContext("2d");
@@ -59,16 +50,21 @@ var scoreBoard = {
   this.update = function() {
     this.currentNote.moveDown();
     if (this.currentNote.getBottom() >= this.height) {
-      if (this.isOnItsKey(this.currentNote) === true){
-        alert("bien!!")
+      if (this.isOnItsKey(this.currentNote) === true) {
+        this.score++;
         this.generateNote();
+      } else {
+        alert("game over");
       }
-      else {
-        alert("game over")
-      }
-      
+
       // console.log("collision!");
     }
+  };
+
+  this.drawScore = function() {
+    this.ctx.font = "48px Amatic SC";
+    this.ctx.fillStyle = "rgb(56, 167, 175)";
+    this.ctx.fillText("Score: " + this.score, 50, 50);
   };
 
   this.generateNote = function() {
@@ -87,6 +83,7 @@ var scoreBoard = {
   };
 
   this.draw = function() {
+    
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.currentNote.draw(this.ctx);
     this.drawScore();
@@ -120,8 +117,4 @@ var scoreBoard = {
       return false;
     }
   };
-
-  this.drawScore = function(){
-    this.scoreBoard.update(this.score, this.ctx)
-  }
 }
