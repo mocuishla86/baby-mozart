@@ -38,15 +38,6 @@ Note.prototype.makeSound = function() {
   this.sound.play();
 };
 
-// Note.prototype.setListeners = function() {
-//   document.onkeydown = function(event) {
-//     if (event.keyCode === 39) {
-//      this.x-=4; console.log(this.x)
-//     } else if (event.keyCode == 37) {
-
-//     }
-//   }.bind(this);
-// };
 Note.prototype.moveLeft = function() {
   console.log(this.x);
   this.x -= 10;
@@ -56,4 +47,10 @@ Note.prototype.moveRight = function() {
   console.log(this.x);
   this.x += 10;
 };
+
+Note.prototype.moveKeyDown = function() {
+  console.log(this.x);
+  this.y += 10;
+};
+
 
