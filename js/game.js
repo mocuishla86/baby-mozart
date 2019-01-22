@@ -4,28 +4,30 @@ function Game() {
   this.width = 1000;
   this.height = 600;
   this.currentNote = undefined;
- 
   this.allNotes = [
-    new Note(0,0,"Do","#C76CE5",document.getElementById("Do")),
-    new Note(0,0,"Re","#6EA3E8",document.getElementById("Re")),
-    new Note(0,0,"Mi","#72FFC4",document.getElementById("Mi")),
-    new Note(0,0,"Fa","#A0E85E",document.getElementById("Fa")),
-    new Note(0,0,"Sol","#FFE15D",document.getElementById("Sol")),
-    new Note(0,0,"La","#FFAE68",document.getElementById("La")),
-    new Note(0,0,"Si","#E56D85",document.getElementById("Si")),
+    new Note(0, 0, "Do", "#C76CE5", document.getElementById("Do")),
+    new Note(0, 0, "Re", "#6EA3E8", document.getElementById("Re")),
+    new Note(0, 0, "Mi", "#72FFC4", document.getElementById("Mi")),
+    new Note(0, 0, "Fa", "#A0E85E", document.getElementById("Fa")),
+    new Note(0, 0, "Sol", "#FFE15D", document.getElementById("Sol")),
+    new Note(0, 0, "La", "#FFAE68", document.getElementById("La")),
+    new Note(0, 0, "Si", "#E56D85", document.getElementById("Si"))
   ];
+  this.keyLeft = 37;
+  this.keyRight = 39;
+  this.keyDown = 40;
 
+  //this.currentNote.changeDirection() = false;
   //this.note = new Note(70, 0, "Fa");
-
 
   this.start = function(canvasID) {
     this.canvas = document.getElementById(canvasID);
     this.ctx = this.canvas.getContext("2d");
     this.generateNote();
-   
+    this.setListeners();
+
     setInterval(
       function() {
-        
         this.draw();
         this.generateSound();
         this.update();
@@ -34,34 +36,46 @@ function Game() {
     );
   };
 
-
   this.update = function() {
-      this.currentNote.moveDown();
-      if(this.currentNote.getBottom() >= this.height){
-        this.generateNote();
-        // console.log("collision!");
-      }
-    };
+    this.currentNote.moveDown();
+    if (this.currentNote.getBottom() >= this.height) {
+      this.generateNote();
+      // console.log("collision!");
+    }
+  };
+
 
   this.generateNote = function() {
-    var randomNoteIndex = Math.floor(Math.random() * this.allNotes.length)
-    this.currentNote = this.allNotes[randomNoteIndex];  
-    var randomXPosition = Math.floor(Math.random()*900)
-    
+    var randomNoteIndex = Math.floor(Math.random() * this.allNotes.length);
+    this.currentNote = this.allNotes[randomNoteIndex];
+    var randomXPosition = Math.floor(Math.random() * 900);
     this.currentNote.x = randomXPosition;
-    this.currentNote.y = 0;  
+    this.currentNote.y = 0;
   };
 
   this.generateSound = function() {
     if (this.currentNote.y === 0) {
       //para solucionar la problematica con el AUTOPLAY, hacer que interaccione, bajando la y
-    this.currentNote.makeSound();
+      this.currentNote.makeSound();
     }
   };
 
   this.draw = function() {
-      this.ctx.clearRect(0, 0, this.width, this.height);
-      this.currentNote.draw(this.ctx);
+    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.currentNote.draw(this.ctx);
+  };
+
+  this.setListeners = function() {
+    console.log(this.currentNote);
+    document.onkeydown = function(event) {
+      if (event.keyCode === 37) {
+        this.currentNote.moveLeft();
+      } 
+      if (event.keyCode === 39) {
+        this.currentNote.moveRight();
+      }
+
+      
+    }.bind(this);
   };
 }
-
