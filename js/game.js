@@ -4,6 +4,7 @@ function Game() {
   this.width = 1000;
   this.height = 600;
   this.currentNote = undefined;
+ 
   this.allNotes = [
     new Note(0,0,"Do","#C76CE5",document.getElementById("Do")),
     new Note(0,0,"Re","#6EA3E8",document.getElementById("Re")),
@@ -45,7 +46,9 @@ function Game() {
   this.generateNote = function() {
     var randomNoteIndex = Math.floor(Math.random() * this.allNotes.length)
     this.currentNote = this.allNotes[randomNoteIndex];  
-    this.currentNote.x = 40;
+    var randomXPosition = Math.floor(Math.random()*900)
+    
+    this.currentNote.x = randomXPosition;
     this.currentNote.y = 0;  
   };
 
