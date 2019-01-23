@@ -9,6 +9,8 @@ function Game() {
   this.score = 0;
   this.lives = 3;
 
+  this.difficulty = "easy"
+
   this.allNotes = [
     new Note(0, 0, "Do", "#C76CE5", document.getElementById("Do")),
     new Note(0, 0, "Re", "#6EA3E8", document.getElementById("Re")),
@@ -41,7 +43,7 @@ function Game() {
         this.generateSound();
         this.update();
       }.bind(this),
-      10
+      17
     );
   };
 
@@ -51,6 +53,7 @@ function Game() {
       if (this.isOnItsKey(this.currentNote) === true) {
         this.score++;
         this.generateNote();
+
       } else {
         this.lives--;
         this.generateNote();
@@ -93,7 +96,7 @@ function Game() {
 
   this.draw = function() {
     this.ctx.clearRect(0, 0, this.width, this.height);
-    this.currentNote.draw(this.ctx);
+    this.currentNote.draw(this.ctx, this.difficulty);
     this.drawScore();
     this.drawLives();
   };

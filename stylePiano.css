@@ -28,6 +28,14 @@ body {
  
 }
 
+#bubble{
+  width: 16%;
+  position: absolute;
+  bottom: 248px;
+  right: 132px;
+  visibility: visible;
+}
+
 button {
   position: absolute;
   left: 90px;
@@ -38,6 +46,18 @@ button {
   color: ghostwhite;
   font-family: 'Amatic SC';
   font-size: 45px;
+}
+
+.difficulty-container {
+  position: absolute;
+  left: 90px;
+  bottom: 465px;
+  padding: 40px;
+  border-radius: 15px;
+  background-color: rgb(134, 20, 20);
+  color: ghostwhite;
+  font-family: 'Amatic SC';
+  font-size: 25px;
 }
 
 h1 {

@@ -9,8 +9,10 @@
       href="https://fonts.googleapis.com/css?family=Amatic+SC"
       rel="stylesheet"
     />
+
     <script src="js/notes.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/piano.js"></script>
     <script src="js/index.js"></script>
     <title>My piano</title>
   </head>
@@ -19,7 +21,25 @@
 
     <canvas height="600" width="1000" id="canvasPiano"></canvas>
     <div class="main">
-      <button onclick="startGame()"> Start! </button>
+      <button onclick="startGame()">Start!</button>
+      <div class="difficulty-container">
+        <p>DIFFICULTY:</p>
+
+        <div>
+          <input type="radio" id="easy"  name="difficulty" value="Easy" checked />
+          <label for="huey">easy</label>
+        </div>
+
+        <div>
+          <input type="radio" id="medium" onchange="medium()" name="difficulty" value="midium" />
+          <label for="dewey">medium</label>
+        </div>
+
+        <div>
+          <input type="radio" id="hard" onchange="hard()" name="difficulty" value="hard" />
+          <label for="louie">hard</label>
+        </div>
+      </div>
       <ul>
         <li class="tecla doe"></li>
         <li class="tecla re"></li>
@@ -29,16 +49,17 @@
         <li class="tecla la"></li>
         <li class="tecla si"></li>
       </ul>
-     
+
       <img id="mozart" src="images/Mozart.png" />
+      <img id="bubble" src="images/wigflip-ds.png">
     </div>
 
-    <audio id="Do" src="seleccion_notas/Do.mp3"></audio>
-    <audio id="Re" src="seleccion_notas/Re.mp3"></audio>
-    <audio id="Mi" src="seleccion_notas/Mi.mp3"></audio>
-    <audio id="Fa" src="seleccion_notas/Fa.mp3"></audio>
-    <audio id="Sol" src="seleccion_notas/Sol.mp3"></audio>
-    <audio id="La" src="seleccion_notas/La.mp3"></audio>
-    <audio id="Si" src="seleccion_notas/Si.mp3"></audio>
+    <audio data-key="90" id="Do" src="seleccion_notas/Do.mp3"></audio>
+    <audio data-key="88" id="Re" src="seleccion_notas/Re.mp3"></audio>
+    <audio data-key="67" id="Mi" src="seleccion_notas/Mi.mp3"></audio>
+    <audio data-key="86" id="Fa" src="seleccion_notas/Fa.mp3"></audio>
+    <audio data-key="66" id="Sol" src="seleccion_notas/Sol.mp3"></audio>
+    <audio data-key="78" id="La" src="seleccion_notas/La.mp3"></audio>
+    <audio data-key="77" id="Si" src="seleccion_notas/Si.mp3"></audio>
   </body>
 </html>

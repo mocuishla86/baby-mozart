@@ -8,7 +8,7 @@ function Note(x, y, name, color, sound) {
   this.radius = 30;
 }
 
-Note.prototype.draw = function(ctx) {
+Note.prototype.draw = function(ctx, difficulty) {
   ctx.beginPath();
   ctx.font = "48px Amatic SC";
   var noteTextX; //para que se centre el texto encima de la nota
@@ -17,12 +17,22 @@ Note.prototype.draw = function(ctx) {
   } else {
     noteTextX = this.x - 20;
   }
-  ctx.fillText(this.name, noteTextX, this.y - 35);
+
+  if (difficulty === "easy" || difficulty === "medium") {
+    ctx.fillText(this.name, noteTextX, this.y - 35);
+  } else {
+    ctx.fillText("key", noteTextX, this.y - 35);
+  }
 
   var startAngle = 0;
   var endAngle = Math.PI * 2;
   ctx.arc(this.x, this.y, this.radius, startAngle, endAngle, true);
-  ctx.fillStyle = this.color;
+  if (difficulty === "easy") {
+    ctx.fillStyle = this.color;
+  } else {
+    ctx.fillStyle = "gray";
+  }
+
   ctx.fill();
 };
 
@@ -52,5 +62,3 @@ Note.prototype.moveKeyDown = function() {
   console.log(this.x);
   this.y += 10;
 };
-
-
