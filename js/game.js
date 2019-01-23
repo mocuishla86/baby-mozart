@@ -1,15 +1,13 @@
 function Game() {
   this.width = 1000;
   this.height = 600;
-  this.keyLeft = 37;
-  this.keyRight = 39;
-  this.keyDown = 40;
 
   this.currentNote = undefined;
   this.canvas = undefined;
   this.ctx = undefined;
 
   this.score = 0;
+  this.lives = 3;
 
   this.allNotes = [
     new Note(0, 0, "Do", "#C76CE5", document.getElementById("Do")),
@@ -54,10 +52,15 @@ function Game() {
         this.score++;
         this.generateNote();
       } else {
-        alert("game over");
+        this.lives--;
+        this.generateNote();
       }
 
-      // console.log("collision!");
+      if (this.lives === 0) {
+        alert("G.O.");
+        this.reset();
+        //this.reset();
+      }
     }
   };
 
@@ -65,6 +68,12 @@ function Game() {
     this.ctx.font = "48px Amatic SC";
     this.ctx.fillStyle = "rgb(56, 167, 175)";
     this.ctx.fillText("Score: " + this.score, 50, 50);
+  };
+
+  this.drawLives = function() {
+    this.ctx.font = "48px Amatic SC";
+    this.ctx.fillStyle = "rgb(56, 167, 175)";
+    this.ctx.fillText("Lives: " + this.lives, 850, 50);
   };
 
   this.generateNote = function() {
@@ -83,10 +92,10 @@ function Game() {
   };
 
   this.draw = function() {
-    
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.currentNote.draw(this.ctx);
     this.drawScore();
+    this.drawLives();
   };
 
   this.setListeners = function() {
@@ -116,5 +125,10 @@ function Game() {
     } else {
       return false;
     }
+  };
+
+  this.reset = function() {
+    this.score = 0;
+    this.lives = 3;
   };
 }
