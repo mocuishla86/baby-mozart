@@ -31,13 +31,13 @@ function Game() {
     { id: "Si", x1: 810, x2: 940 }
   ];
 
-  this.showLevelMessage = function(newLevel){
+  this.showLevelMessage = function(newLevel) {
     clearInterval(this.idInterval);
     this.ctx.clearRect(0, 0, this.width, this.height);
 
     this.ctx.font = "75px Amatic SC";
     this.ctx.fillStyle = "#eda195";
-    this.ctx.fillText("You have reached "+newLevel+" level!", 250, 350);
+    this.ctx.fillText("You have reached " + newLevel + " level!", 250, 350);
 
     document.getElementById(newLevel).removeAttribute("disabled");
     this.difficulty = newLevel;
@@ -49,40 +49,47 @@ function Game() {
       }.bind(this),
       3000
     );
-  }
+  };
 
   this.update = function() {
+    var levelUp = document.getElementById("levelUp");
+
     if (this.score === 2 && this.difficulty === "easy") {
-      this.showLevelMessage("medium")
+      levelUp.play();
+      this.showLevelMessage("medium");
       return;
     }
 
     if (this.score === 4 && this.difficulty === "medium") {
-      this.showLevelMessage("hard")
+      levelUp.play();
+      this.showLevelMessage("hard");
     }
 
     this.currentNote.moveDown();
     if (this.currentNote.getBottom() >= this.height) {
       if (this.isOnItsKey(this.currentNote) === true) {
         this.score++;
+        var goodNote = document.getElementById("goodNote");
+        goodNote.play();
         this.generateNote();
       } else {
+        var fail = document.getElementById("fail");
+        fail.play()
         this.lives--;
         this.generateNote();
       }
     }
-
   };
 
-this.startInterval = function() {
-  this.idInterval = setInterval(
-    function() {
-      this.draw();
-      this.update();
-    }.bind(this),
-    17
-  );
-}
+  this.startInterval = function() {
+    this.idInterval = setInterval(
+      function() {
+        this.draw();
+        this.update();
+      }.bind(this),
+      17
+    );
+  };
 
   this.drawGameOver = function() {
     this.ctx.font = "150px Amatic SC";
@@ -112,8 +119,8 @@ this.startInterval = function() {
   };
 
   this.generateSound = function() {
-      //para solucionar la problematica con el AUTOPLAY, hacer que interaccione, bajando la y
-      this.currentNote.makeSound();
+    //para solucionar la problematica con el AUTOPLAY, hacer que interaccione, bajando la y
+    this.currentNote.makeSound();
   };
 
   this.draw = function() {
@@ -166,15 +173,16 @@ Game.prototype.start = function(canvasID) {
   this.startInterval();
 };
 
-
 Game.prototype.gameOver = function() {
   clearInterval(this.idInterval);
   this.drawGameOver();
+  var gameOver = document.getElementById("gameOver");
+  gameOver.play()
   setTimeout(
     function() {
       this.ctx.clearRect(0, 0, this.width, this.height);
     }.bind(this),
-    3000
+    5000
   );
 };
 
