@@ -12,13 +12,13 @@ function Game() {
   this.difficulty = "easy";
 
   this.allNotes = [
-    new Note(0, 0, "Do", "#035c89", document.getElementById("Do")),
-    new Note(0, 0, "Re", "#0d3d48", document.getElementById("Re")),
-    new Note(0, 0, "Mi", "#72FFC4", document.getElementById("Mi")),
-    new Note(0, 0, "Fa", "#A0E85E", document.getElementById("Fa")),
-    new Note(0, 0, "Sol", "#89a762", document.getElementById("Sol")),
-    new Note(0, 0, "La", "#FFAE68", document.getElementById("La")),
-    new Note(0, 0, "Si", "#E56D85", document.getElementById("Si"))
+    new Note(0, 0, "C", "#035c89", document.getElementById("Do")),
+    new Note(0, 0, "D", "#0d3d48", document.getElementById("Re")),
+    new Note(0, 0, "E", "#72FFC4", document.getElementById("Mi")),
+    new Note(0, 0, "F", "#A0E85E", document.getElementById("Fa")),
+    new Note(0, 0, "G", "#89a762", document.getElementById("Sol")),
+    new Note(0, 0, "A", "#FFAE68", document.getElementById("La")),
+    new Note(0, 0, "B", "#E56D85", document.getElementById("Si"))
   ];
 
   this.pianoKeysLocation = [
