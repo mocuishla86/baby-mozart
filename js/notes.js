@@ -18,19 +18,19 @@ Note.prototype.draw = function(ctx, difficulty) {
     noteTextX = this.x - 20;
   }
 
-  if (difficulty === "Easy" || difficulty === "Medium") {
+  if (difficulty === "easy" || difficulty === "medium") {
     ctx.fillText(this.name, noteTextX, this.y - 35);
   } else {
-    ctx.fillText(" ", noteTextX, this.y - 35);
+    ctx.fillText(" ?", noteTextX, this.y - 35);
   }
 
   var startAngle = 0;
   var endAngle = Math.PI * 2;
   ctx.arc(this.x, this.y, this.radius, startAngle, endAngle, true);
-  if (difficulty === "Easy") {
+  if (difficulty === "easy") {
     ctx.fillStyle = this.color;
   } else {
-    ctx.fillStyle = "#eda195";
+    ctx.fillStyle = "#BFD5D6";
   }
 
   ctx.fill();

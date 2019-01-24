@@ -9,7 +9,7 @@ function Game() {
   this.score = 0;
   this.lives = 3;
 
-  this.difficulty = "Easy";
+  this.difficulty = "easy";
 
   this.allNotes = [
     new Note(0, 0, "Do", "#035c89", document.getElementById("Do")),
@@ -31,7 +31,36 @@ function Game() {
     { id: "Si", x1: 810, x2: 940 }
   ];
 
+  this.showLevelMessage = function(newLevel){
+    clearInterval(this.idInterval);
+    this.ctx.clearRect(0, 0, this.width, this.height);
+
+    this.ctx.font = "75px Amatic SC";
+    this.ctx.fillStyle = "#eda195";
+    this.ctx.fillText("You have reached "+newLevel+" level!", 250, 350);
+
+    document.getElementById(newLevel).removeAttribute("disabled");
+    this.difficulty = newLevel;
+
+    setTimeout(
+      function() {
+        this.startInterval();
+        this.generateSound();
+      }.bind(this),
+      3000
+    );
+  }
+
   this.update = function() {
+    if (this.score === 2 && this.difficulty === "easy") {
+      this.showLevelMessage("medium")
+      return;
+    }
+
+    if (this.score === 4 && this.difficulty === "medium") {
+      this.showLevelMessage("hard")
+    }
+
     this.currentNote.moveDown();
     if (this.currentNote.getBottom() >= this.height) {
       if (this.isOnItsKey(this.currentNote) === true) {
@@ -41,27 +70,19 @@ function Game() {
         this.lives--;
         this.generateNote();
       }
-
-    }
-    if (this.score === 1){
-      //this.difficulty = "Medium"
-      // document.getElementById("easy").setAttribute("disabled", "disabled")
-      document.getElementById("medium").removeAttribute("disabled")
     }
 
-    if(this.score === 2){
-      //this.difficulty = "Hard"
-      document.getElementById("hard").removeAttribute("disabled")
-    }
   };
 
-// this.nextLevel = function(){
-//   if (this.score === 1){
-//     alert("pasas")
-//     this.difficulty = "Medium"
-//   }
-// }
-
+this.startInterval = function() {
+  this.idInterval = setInterval(
+    function() {
+      this.draw();
+      this.update();
+    }.bind(this),
+    17
+  );
+}
 
   this.drawGameOver = function() {
     this.ctx.font = "150px Amatic SC";
@@ -87,13 +108,12 @@ function Game() {
     var randomXPosition = Math.floor(Math.random() * 900);
     this.currentNote.x = randomXPosition;
     this.currentNote.y = 0;
+    this.generateSound();
   };
 
   this.generateSound = function() {
-    if (this.currentNote.y === 0) {
       //para solucionar la problematica con el AUTOPLAY, hacer que interaccione, bajando la y
       this.currentNote.makeSound();
-    }
   };
 
   this.draw = function() {
@@ -101,8 +121,7 @@ function Game() {
     this.currentNote.draw(this.ctx, this.difficulty);
     this.drawScore();
     this.drawLives();
-    if(this.lives === 0){
-      
+    if (this.lives === 0) {
       this.lives = 0;
       this.gameOver();
     }
@@ -144,30 +163,20 @@ Game.prototype.start = function(canvasID) {
   this.generateNote();
   this.setListeners();
   this._setHandlers();
-  this.idInterval=
-  setInterval(
-    function() {
-      this.draw();
-      this.generateSound();
-      this.update();
-    }.bind(this),
-    17
-  );
-
-  
+  this.startInterval();
 };
 
 
-
-Game.prototype.gameOver = function(){
-
+Game.prototype.gameOver = function() {
   clearInterval(this.idInterval);
-  this.drawGameOver()
-  setTimeout(function(){
-    this.ctx.clearRect(0, 0, this.width, this.height);
-  }.bind(this),3000)
-  
-}
+  this.drawGameOver();
+  setTimeout(
+    function() {
+      this.ctx.clearRect(0, 0, this.width, this.height);
+    }.bind(this),
+    3000
+  );
+};
 
 Game.prototype._setHandlers = function() {
   var radios = document.querySelectorAll(".levelChange");
@@ -181,11 +190,9 @@ Game.prototype._setHandlers = function() {
 
 Game.prototype._changeDifficulty = function(newDifficulty) {
   this.difficulty = newDifficulty;
-
 };
 
 Game.prototype.reset = function() {
-  
   this.score = 0;
   this.lives = 3;
-}
+};
