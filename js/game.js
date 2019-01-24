@@ -9,7 +9,6 @@ function Game() {
   this.score = 0;
   this.lives = 3;
 
-  
   this.difficulty = "Easy";
 
   this.allNotes = [
@@ -43,19 +42,20 @@ function Game() {
         this.generateNote();
       }
 
-      if (this.lives === 0) {
-        alert("GAME OVER")
-        this.reset();
-        //this.reset();
-      }
+      // if (this.lives === 0) {
+      // //   // alert("GAME OVER");
+      // //this.reset();
+      // //   //this.reset();
+      
+      //  }
     }
   };
 
-this.drawGameOver = function(){
-  this.ctx.font = "100px Amatic SC";
-  this.ctx.fillStyle = "#eda195";
-  this.ctx.fillText ("GAME OVER!", 500, 300);
-}
+  this.drawGameOver = function() {
+    this.ctx.font = "150px Amatic SC";
+    this.ctx.fillStyle = "#eda195";
+    this.ctx.fillText("GAME OVER!", 250, 350);
+  };
 
   this.drawScore = function() {
     this.ctx.font = "48px Amatic SC";
@@ -89,17 +89,22 @@ this.drawGameOver = function(){
     this.currentNote.draw(this.ctx, this.difficulty);
     this.drawScore();
     this.drawLives();
+    if(this.lives === 0){
+      
+      this.lives = 0;
+      this.gameOver();
+    }
   };
 
   this.setListeners = function() {
     document.onkeydown = function(event) {
-      if (event.keyCode === 65) {
+      if (event.keyCode === 37) {
         this.currentNote.moveLeft();
       }
-      if (event.keyCode === 68) {
+      if (event.keyCode === 39) {
         this.currentNote.moveRight();
       }
-      if (event.keyCode === 83) {
+      if (event.keyCode === 40) {
         this.currentNote.moveKeyDown();
       }
     }.bind(this);
@@ -119,11 +124,7 @@ this.drawGameOver = function(){
       return false;
     }
   };
-
-  
-  
 }
-
 
 Game.prototype.start = function(canvasID) {
   this.canvas = document.getElementById(canvasID);
@@ -131,7 +132,7 @@ Game.prototype.start = function(canvasID) {
   this.generateNote();
   this.setListeners();
   this._setHandlers();
-
+  this.idInterval=
   setInterval(
     function() {
       this.draw();
@@ -140,27 +141,40 @@ Game.prototype.start = function(canvasID) {
     }.bind(this),
     17
   );
+
+  
 };
+
+
+
+Game.prototype.gameOver = function(){
+
+  clearInterval(this.idInterval);
+  this.drawGameOver()
+  setTimeout(function(){
+    this.ctx.clearRect(0, 0, this.width, this.height);
+  }.bind(this),2000)
+  
+}
 
 Game.prototype._setHandlers = function() {
   var radios = document.querySelectorAll(".levelChange");
-  var that=this;
+  var that = this;
   radios.forEach(function(radio) {
-    radio.addEventListener("change",function(e) {
-        that._changeDifficulty(e.target.value);
-      }
-    );
+    radio.addEventListener("change", function(e) {
+      that._changeDifficulty(e.target.value);
+    });
   });
 };
 
 Game.prototype._changeDifficulty = function(newDifficulty) {
-  this.difficulty = newDifficulty
+  this.difficulty = newDifficulty;
 
-  console.log(this.difficulty)
+  console.log(this.difficulty);
 };
-
 
 Game.prototype.reset = function() {
+  
   this.score = 0;
   this.lives = 3;
-};
+}

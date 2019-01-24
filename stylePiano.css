@@ -89,6 +89,10 @@ h1 {
   margin-bottom: 0;
 }
 
+.difficulty-container {
+  user-select: none;
+}
+
 .title {
   margin: auto;
 }
