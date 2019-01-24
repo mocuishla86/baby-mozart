@@ -9,7 +9,8 @@ function Game() {
   this.score = 0;
   this.lives = 3;
 
-  this.difficulty = "easy"
+  
+  this.difficulty = "Easy";
 
   this.allNotes = [
     new Note(0, 0, "Do", "#C76CE5", document.getElementById("Do")),
@@ -31,51 +32,40 @@ function Game() {
     { id: "Si", x1: 810, x2: 940 }
   ];
 
-  this.start = function(canvasID) {
-    this.canvas = document.getElementById(canvasID);
-    this.ctx = this.canvas.getContext("2d");
-    this.generateNote();
-    this.setListeners();
-
-    setInterval(
-      function() {
-        this.draw();
-        this.generateSound();
-        this.update();
-      }.bind(this),
-      17
-    );
-  };
-
   this.update = function() {
     this.currentNote.moveDown();
     if (this.currentNote.getBottom() >= this.height) {
       if (this.isOnItsKey(this.currentNote) === true) {
         this.score++;
         this.generateNote();
-
       } else {
         this.lives--;
         this.generateNote();
       }
 
       if (this.lives === 0) {
-        alert("G.O.");
+        alert("GAME OVER")
         this.reset();
         //this.reset();
       }
     }
   };
 
+this.drawGameOver = function(){
+  this.ctx.font = "100px Amatic SC";
+  this.ctx.fillStyle = "#eda195";
+  this.ctx.fillText ("GAME OVER!", 500, 300);
+}
+
   this.drawScore = function() {
     this.ctx.font = "48px Amatic SC";
-    this.ctx.fillStyle = "rgb(56, 167, 175)";
+    this.ctx.fillStyle = "#eda195";
     this.ctx.fillText("Score: " + this.score, 50, 50);
   };
 
   this.drawLives = function() {
     this.ctx.font = "48px Amatic SC";
-    this.ctx.fillStyle = "rgb(56, 167, 175)";
+    this.ctx.fillStyle = "#eda195";
     this.ctx.fillText("Lives: " + this.lives, 850, 50);
   };
 
@@ -103,13 +93,13 @@ function Game() {
 
   this.setListeners = function() {
     document.onkeydown = function(event) {
-      if (event.keyCode === 37) {
+      if (event.keyCode === 65) {
         this.currentNote.moveLeft();
       }
-      if (event.keyCode === 39) {
+      if (event.keyCode === 68) {
         this.currentNote.moveRight();
       }
-      if (event.keyCode === 40) {
+      if (event.keyCode === 83) {
         this.currentNote.moveKeyDown();
       }
     }.bind(this);
@@ -130,8 +120,47 @@ function Game() {
     }
   };
 
-  this.reset = function() {
-    this.score = 0;
-    this.lives = 3;
-  };
+  
+  
 }
+
+
+Game.prototype.start = function(canvasID) {
+  this.canvas = document.getElementById(canvasID);
+  this.ctx = this.canvas.getContext("2d");
+  this.generateNote();
+  this.setListeners();
+  this._setHandlers();
+
+  setInterval(
+    function() {
+      this.draw();
+      this.generateSound();
+      this.update();
+    }.bind(this),
+    17
+  );
+};
+
+Game.prototype._setHandlers = function() {
+  var radios = document.querySelectorAll(".levelChange");
+  var that=this;
+  radios.forEach(function(radio) {
+    radio.addEventListener("change",function(e) {
+        that._changeDifficulty(e.target.value);
+      }
+    );
+  });
+};
+
+Game.prototype._changeDifficulty = function(newDifficulty) {
+  this.difficulty = newDifficulty
+
+  console.log(this.difficulty)
+};
+
+
+Game.prototype.reset = function() {
+  this.score = 0;
+  this.lives = 3;
+};
