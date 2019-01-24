@@ -12,11 +12,11 @@ function Game() {
   this.difficulty = "Easy";
 
   this.allNotes = [
-    new Note(0, 0, "Do", "#C76CE5", document.getElementById("Do")),
-    new Note(0, 0, "Re", "#6EA3E8", document.getElementById("Re")),
+    new Note(0, 0, "Do", "#035c89", document.getElementById("Do")),
+    new Note(0, 0, "Re", "#0d3d48", document.getElementById("Re")),
     new Note(0, 0, "Mi", "#72FFC4", document.getElementById("Mi")),
     new Note(0, 0, "Fa", "#A0E85E", document.getElementById("Fa")),
-    new Note(0, 0, "Sol", "#FFE15D", document.getElementById("Sol")),
+    new Note(0, 0, "Sol", "#89a762", document.getElementById("Sol")),
     new Note(0, 0, "La", "#FFAE68", document.getElementById("La")),
     new Note(0, 0, "Si", "#E56D85", document.getElementById("Si"))
   ];
@@ -42,14 +42,26 @@ function Game() {
         this.generateNote();
       }
 
-      // if (this.lives === 0) {
-      // //   // alert("GAME OVER");
-      // //this.reset();
-      // //   //this.reset();
-      
-      //  }
+    }
+    if (this.score === 1){
+      //this.difficulty = "Medium"
+      // document.getElementById("easy").setAttribute("disabled", "disabled")
+      document.getElementById("medium").removeAttribute("disabled")
+    }
+
+    if(this.score === 2){
+      //this.difficulty = "Hard"
+      document.getElementById("hard").removeAttribute("disabled")
     }
   };
+
+// this.nextLevel = function(){
+//   if (this.score === 1){
+//     alert("pasas")
+//     this.difficulty = "Medium"
+//   }
+// }
+
 
   this.drawGameOver = function() {
     this.ctx.font = "150px Amatic SC";
@@ -153,7 +165,7 @@ Game.prototype.gameOver = function(){
   this.drawGameOver()
   setTimeout(function(){
     this.ctx.clearRect(0, 0, this.width, this.height);
-  }.bind(this),2000)
+  }.bind(this),3000)
   
 }
 
@@ -170,7 +182,6 @@ Game.prototype._setHandlers = function() {
 Game.prototype._changeDifficulty = function(newDifficulty) {
   this.difficulty = newDifficulty;
 
-  console.log(this.difficulty);
 };
 
 Game.prototype.reset = function() {

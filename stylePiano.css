@@ -8,7 +8,7 @@ body {
   overflow: hidden;
   box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.3);
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;;
-  background-image: linear-gradient(to right, #054f7d,#00a7cf,#054f7d);
+  background-image: linear-gradient(to right, #054f7d,#0053cf63,#054f7d);
   animation-duration: 20s;
   animation-iteration-count: infinite;
   animation-name: gradients;
@@ -135,11 +135,11 @@ ul {
 }
 
 .doe {
-  background-color: #c76ce5;
+  background-color: #035c89;
 }
 
 .re {
-  background-color: #6ea3e8;
+  background-color: #0d3d48;
 }
 
 .mi {
@@ -151,7 +151,7 @@ ul {
 }
 
 .sol {
-  background-color: #ffe15d;
+  background-color: #89a762;
 }
 
 .la {

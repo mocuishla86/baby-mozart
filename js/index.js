@@ -7,9 +7,9 @@ function startGame() {
   hideImage();
   document.getElementById("easy").removeAttribute("disabled")
   //document.getElementById("easy").setAttribute("disabled", "disabled")
-  document.getElementById("medium").removeAttribute("disabled")
+  document.getElementById("medium").setAttribute("disabled")
   // document.getElementById("medium").setAttribute("disabled", "disabled")
-  document.getElementById("hard").removeAttribute("disabled")
+  document.getElementById("hard").setAttribute("disabled")
   // document.getElementById("hard").setAttribute("disabled", "disabled")
   
 }
