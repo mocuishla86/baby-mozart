@@ -19,10 +19,10 @@ A la izquierda, tendremos lo siguiente:
 
 Debajo de la pantalla de juego está el piano. Las teclas asociadas a las notas son las siguientes:
 
-Do → Z
-Re → X
-Mi → C
-Fa → V
-Sol → B
-La → N
-Si → M
+Do → Z |||
+Re → X |||
+Mi → C |||
+Fa → V |||
+Sol → B |||
+La → N |||
+Si → M |||
