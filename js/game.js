@@ -21,6 +21,8 @@ function Game() {
     new Note(0, 0, "Si", "#E56D85", document.getElementById("Si"))
   ];
 
+
+
   this.pianoKeysLocation = [
     { id: "Do", x1: 30, x2: 160 },
     { id: "Re", x1: 160, x2: 290 },
@@ -31,7 +33,7 @@ function Game() {
     { id: "Si", x1: 810, x2: 940 }
   ];
 
-  this.showLevelMessage = function(newLevel) {
+  Game.prototype.showLevelMessage = function(newLevel) {
     clearInterval(this.idInterval);
     this.ctx.clearRect(0, 0, this.width, this.height);
 
@@ -50,18 +52,21 @@ function Game() {
     );
   };
 
-  this.update = function() {
+  Game.prototype.update = function() {
     var levelUp = document.getElementById("levelUp");
 
     if (this.score === 10 && this.difficulty === "easy") {
       levelUp.play();
+      
       this.showLevelMessage("medium");
+      document.getElementById("easy").setAttribute("disabled", "disabled");
       return;
     }
 
     if (this.score === 20 && this.difficulty === "medium") {
       levelUp.play();
       this.showLevelMessage("hard");
+      document.getElementById("medium").setAttribute("disabled", "disabled");
     }
 
     this.currentNote.moveDown();
@@ -80,7 +85,7 @@ function Game() {
     }
   };
 
-  this.startInterval = function() {
+  Game.prototype.startInterval = function() {
     this.idInterval = setInterval(
       function() {
         this.draw();
@@ -90,25 +95,25 @@ function Game() {
     );
   };
 
-  this.drawGameOver = function() {
+  Game.prototype.drawGameOver = function() {
     this.ctx.font = "150px Amatic SC";
     this.ctx.fillStyle = "#eda195";
     this.ctx.fillText("GAME OVER!", 250, 350);
   };
 
-  this.drawScore = function() {
+  Game.prototype.drawScore = function() {
     this.ctx.font = "48px Amatic SC";
     this.ctx.fillStyle = "#eda195";
     this.ctx.fillText("Score: " + this.score, 50, 50);
   };
 
-  this.drawLives = function() {
+  Game.prototype.drawLives = function() {
     this.ctx.font = "48px Amatic SC";
     this.ctx.fillStyle = "#eda195";
     this.ctx.fillText("Lives: " + this.lives, 850, 50);
   };
 
-  this.generateNote = function() {
+  Game.prototype.generateNote = function() {
     var randomNoteIndex = Math.floor(Math.random() * this.allNotes.length);
     this.currentNote = this.allNotes[randomNoteIndex];
     var randomXPosition = Math.floor(Math.random() * 900);
@@ -117,12 +122,12 @@ function Game() {
     this.generateSound();
   };
 
-  this.generateSound = function() {
+  Game.prototype.generateSound = function() {
     //para solucionar la problematica con el AUTOPLAY, hacer que interaccione, bajando la y
     this.currentNote.makeSound();
   };
 
-  this.draw = function() {
+  Game.prototype.draw = function() {
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.currentNote.draw(this.ctx, this.difficulty);
     this.drawScore();
@@ -133,7 +138,7 @@ function Game() {
     }
   };
 
-  this.setListeners = function() {
+  Game.prototype.setListeners = function() {
     document.onkeydown = function(event) {
       if (event.keyCode === 37) {
         this.currentNote.moveLeft();
@@ -147,7 +152,7 @@ function Game() {
     }.bind(this);
   };
 
-  this.isOnItsKey = function(note) {
+  Game.prototype.isOnItsKey = function(note) {
     var foundKey = this.pianoKeysLocation.find(function(key) {
       if (key.id === note.name) {
         return true;
