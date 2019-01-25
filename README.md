@@ -25,4 +25,4 @@ Mi → C |||
 Fa → V |||
 Sol → B |||
 La → N |||
-Si → M |||
+Si → M ||| 
